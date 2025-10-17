@@ -11,14 +11,14 @@ document.addEventListener('DOMContentLoaded', function (e) {
     if (formAuthentication) {
       const fv = FormValidation.formValidation(formAuthentication, {
         fields: {
-          username: {
+          name: {
             validators: {
               notEmpty: {
-                message: 'Please enter username'
+                message: 'Please enter name'
               },
               stringLength: {
                 min: 6,
-                message: 'Username must be more than 6 characters'
+                message: 'Name must be more than 6 characters'
               }
             }
           },
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
               }
             }
           },
-          'confirm-password': {
+          password_confirmation: {
             validators: {
               notEmpty: {
                 message: 'Please confirm password'
@@ -70,14 +70,14 @@ document.addEventListener('DOMContentLoaded', function (e) {
                 message: 'Password must be more than 6 characters'
               }
             }
-          },
-          terms: {
+          }
+          /*terms: {
             validators: {
               notEmpty: {
                 message: 'Please agree terms & conditions'
               }
             }
-          }
+          }*/
         },
         plugins: {
           trigger: new FormValidation.plugins.Trigger(),

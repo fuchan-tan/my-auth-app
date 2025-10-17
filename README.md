@@ -14,7 +14,7 @@ The following software is required to run the application locally:
 * **Composer:** 2.x or higher  
 * **Node.js & npm:** 16.x or higher (for Vite and frontend dependencies)  
 * **Database:** MySQL 5.7+ or PostgreSQL (or SQLite for development)  
-* **Docker & Docker Compose** (Recommended for Option B Deployment)
+* **Docker & Docker Compose** 
 
 ## **💻 2\. Project Setup Instructions**
 
@@ -41,13 +41,13 @@ The application includes migrations for Fortify's Two-Factor Authentication feat
    php artisan migrate
 
 2. Seed the Database:  
-   The seeder creates a default administrative user for testing the login functionality.
+   The seeder creates a default user for testing the login functionality.
 
 | Field | Value |
 | :---- | :---- |
-| **Name** | Admin User |
-| **Email** | \[Update Later\] |
-| **Password** | \[Update Later\] |
+| **Name** | User |
+| **Email** | admin@admin.com |
+| **Password** | pwd12345 |
 
 3.   
    php artisan db:seed
@@ -128,6 +128,6 @@ Ensure **Docker** and **Docker Compose** are installed and running on your syste
 
 4. Access the Application:  
    Once running, the application should be accessible at: http://localhost:8000 (or the port defined in your docker-compose.yml).  
-   The Admin login credentials are: admin@occamlab.com / password.
+   The login credentials are: admin@admin.com / pwd12345.
 
 **Thank you for reviewing my submission for Part A: Authentication.**

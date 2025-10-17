@@ -59,27 +59,38 @@ $configData = Helper::appClasses();
         <h3 class=" mb-1">Welcome to {{config('variables.templateName')}}! 👋</h3>
         <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
-        <form id="formAuthentication" class="mb-3" action="{{url('/')}}" method="GET">
+        <form id="formAuthentication" class="mb-3" action="{{ route('login') }}" method="POST">
+          @csrf
           <div class="mb-3">
-            <label for="email" class="form-label">Email or Username</label>
-            <input type="text" class="form-control" id="email" name="email-username" placeholder="Enter your email or username" autofocus>
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}"  placeholder="Enter your email" required >
+            @error('email')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
           </div>
           <div class="mb-3 form-password-toggle">
             <div class="d-flex justify-content-between">
               <label class="form-label" for="password">Password</label>
-              <a href="{{url('auth/forgot-password-cover')}}">
+              <a href="{{url('auth/forgot-password')}}">
                 <small>Forgot Password?</small>
               </a>
             </div>
             <div class="input-group input-group-merge">
-              <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
+              <input type="password" id="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" required />
               <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+              @error('password')
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+              @enderror
             </div>
           </div>
           <div class="mb-3">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="remember-me">
-              <label class="form-check-label" for="remember-me">
+              <input class="form-check-input" type="checkbox" id="remember" name="remember">
+              <label class="form-check-label" for="remember">
                 Remember Me
               </label>
             </div>
@@ -91,12 +102,12 @@ $configData = Helper::appClasses();
 
         <p class="text-center">
           <span>New on our platform?</span>
-          <a href="{{url('auth/register-cover')}}">
+          <a href="{{url('auth/register')}}">
             <span>Create an account</span>
           </a>
         </p>
 
-        <div class="divider my-4">
+        <!--<div class="divider my-4">
           <div class="divider-text">or</div>
         </div>
 
@@ -112,7 +123,7 @@ $configData = Helper::appClasses();
           <a href="javascript:;" class="btn btn-icon btn-label-twitter">
             <i class="tf-icons fa-brands fa-twitter fs-5"></i>
           </a>
-        </div>
+        </div>-->
       </div>
     </div>
     <!-- /Login -->

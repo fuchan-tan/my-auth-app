@@ -78,19 +78,19 @@ use App\Http\Controllers\pages\MiscError;
 use App\Http\Controllers\pages\MiscUnderMaintenance;
 use App\Http\Controllers\pages\MiscComingSoon;
 use App\Http\Controllers\pages\MiscNotAuthorized;
-use App\Http\Controllers\authentications\LoginBasic;
-use App\Http\Controllers\authentications\LoginCover;
-use App\Http\Controllers\authentications\RegisterBasic;
-use App\Http\Controllers\authentications\RegisterCover;
-use App\Http\Controllers\authentications\RegisterMultiSteps;
-use App\Http\Controllers\authentications\VerifyEmailBasic;
-use App\Http\Controllers\authentications\VerifyEmailCover;
-use App\Http\Controllers\authentications\ResetPasswordBasic;
-use App\Http\Controllers\authentications\ResetPasswordCover;
-use App\Http\Controllers\authentications\ForgotPasswordBasic;
-use App\Http\Controllers\authentications\ForgotPasswordCover;
-use App\Http\Controllers\authentications\TwoStepsBasic;
-use App\Http\Controllers\authentications\TwoStepsCover;
+// use App\Http\Controllers\authentications\LoginBasic;
+// use App\Http\Controllers\authentications\LoginCover;
+// use App\Http\Controllers\authentications\RegisterBasic;
+// use App\Http\Controllers\authentications\RegisterCover;
+// use App\Http\Controllers\authentications\RegisterMultiSteps;
+// use App\Http\Controllers\authentications\VerifyEmailBasic;
+// use App\Http\Controllers\authentications\VerifyEmailCover;
+// use App\Http\Controllers\authentications\ResetPasswordBasic;
+// use App\Http\Controllers\authentications\ResetPasswordCover;
+// use App\Http\Controllers\authentications\ForgotPasswordBasic;
+// use App\Http\Controllers\authentications\ForgotPasswordCover;
+// use App\Http\Controllers\authentications\TwoStepsBasic;
+// use App\Http\Controllers\authentications\TwoStepsCover;
 use App\Http\Controllers\wizard_example\Checkout as WizardCheckout;
 use App\Http\Controllers\wizard_example\PropertyListing;
 use App\Http\Controllers\wizard_example\CreateDeal;
@@ -158,13 +158,22 @@ use App\Http\Controllers\tables\DatatableExtensions;
 use App\Http\Controllers\charts\ApexCharts;
 use App\Http\Controllers\charts\ChartJs;
 use App\Http\Controllers\maps\Leaflet;
+use App\Http\Controllers\Auth\ResetPasswordController;
+
+
+
+// locale
+Route::get('lang/{locale}', [LanguageController::class, 'swap']);
+
+
+Route::middleware('auth')->group(function () {
+
 
 // Main Page Route
 Route::get('/', [Analytics::class, 'index'])->name('dashboard-analytics');
 Route::get('/dashboard/analytics', [Analytics::class, 'index'])->name('dashboard-analytics');
 Route::get('/dashboard/crm', [Crm::class, 'index'])->name('dashboard-crm');
-// locale
-Route::get('lang/{locale}', [LanguageController::class, 'swap']);
+
 
 // layout
 Route::get('/layouts/collapsed-menu', [CollapsedMenu::class, 'index'])->name('layouts-collapsed-menu');
@@ -249,19 +258,19 @@ Route::get('/pages/misc-comingsoon', [MiscComingSoon::class, 'index'])->name('pa
 Route::get('/pages/misc-not-authorized', [MiscNotAuthorized::class, 'index'])->name('pages-misc-not-authorized');
 
 // authentication
-Route::get('/auth/login-basic', [LoginBasic::class, 'index'])->name('auth-login-basic');
-Route::get('/auth/login-cover', [LoginCover::class, 'index'])->name('auth-login-cover');
-Route::get('/auth/register-basic', [RegisterBasic::class, 'index'])->name('auth-register-basic');
-Route::get('/auth/register-cover', [RegisterCover::class, 'index'])->name('auth-register-cover');
-Route::get('/auth/register-multisteps', [RegisterMultiSteps::class, 'index'])->name('auth-register-multisteps');
-Route::get('/auth/verify-email-basic', [VerifyEmailBasic::class, 'index'])->name('auth-verify-email-basic');
-Route::get('/auth/verify-email-cover', [VerifyEmailCover::class, 'index'])->name('auth-verify-email-cover');
-Route::get('/auth/reset-password-basic', [ResetPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
-Route::get('/auth/reset-password-cover', [ResetPasswordCover::class, 'index'])->name('auth-reset-password-cover');
-Route::get('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
-Route::get('/auth/forgot-password-cover', [ForgotPasswordCover::class, 'index'])->name('auth-forgot-password-cover');
-Route::get('/auth/two-steps-basic', [TwoStepsBasic::class, 'index'])->name('auth-two-steps-basic');
-Route::get('/auth/two-steps-cover', [TwoStepsCover::class, 'index'])->name('auth-two-steps-cover');
+// Route::get('/auth/login-basic', [LoginBasic::class, 'index'])->name('auth-login-basic');
+// Route::get('/auth/login-cover', [LoginCover::class, 'index'])->name('auth-login-cover');
+// Route::get('/auth/register-basic', [RegisterBasic::class, 'index'])->name('auth-register-basic');
+// Route::get('/auth/register-cover', [RegisterCover::class, 'index'])->name('auth-register-cover');
+// Route::get('/auth/register-multisteps', [RegisterMultiSteps::class, 'index'])->name('auth-register-multisteps');
+// Route::get('/auth/verify-email-basic', [VerifyEmailBasic::class, 'index'])->name('auth-verify-email-basic');
+// Route::get('/auth/verify-email-cover', [VerifyEmailCover::class, 'index'])->name('auth-verify-email-cover');
+// Route::get('/auth/reset-password-basic', [ResetPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
+// Route::get('/auth/reset-password-cover', [ResetPasswordCover::class, 'index'])->name('auth-reset-password-cover');
+// Route::get('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
+// Route::get('/auth/forgot-password-cover', [ForgotPasswordCover::class, 'index'])->name('auth-forgot-password-cover');
+// Route::get('/auth/two-steps-basic', [TwoStepsBasic::class, 'index'])->name('auth-two-steps-basic');
+// Route::get('/auth/two-steps-cover', [TwoStepsCover::class, 'index'])->name('auth-two-steps-cover');
 
 // wizard example
 Route::get('/wizard/ex-checkout', [WizardCheckout::class, 'index'])->name('wizard-ex-checkout');
@@ -357,3 +366,9 @@ Route::get('/maps/leaflet', [Leaflet::class, 'index'])->name('maps-leaflet');
 // laravel example
 Route::get('/laravel/user-management', [UserManagement::class, 'UserManagement'])->name('laravel-example-user-management');
 Route::resource('/user-list', UserManagement::class);
+
+});
+
+
+Route::middleware('guest')->group(function () {
+});

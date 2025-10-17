@@ -58,27 +58,45 @@ $configData = Helper::appClasses();
         </div>
         <!-- /Logo -->
         <h4 class="mb-1">Reset Password 🔒</h4>
-        <p class="mb-4">for <span class="fw-medium">john.doe@email.com</span></p>
-        <form id="formAuthentication" class="mb-3" action="{{url('auth/login-cover')}}" method="GET">
+        <p class="mb-4">for <span class="fw-medium">{{ $request->email }}</span></p>
+        @if (session('status'))
+          <div class="alert alert-success" role="alert">
+            {{ session('status') }}
+          </div>
+        @endif
+        <form id="formAuthentication" class="mb-3" action="{{route('password.update')}}" method="POST">
+          @csrf
+          <input type="hidden" name="token" value="{{ $request->route('token') }}">
+          <input type="hidden" name="email" value="{{ $request->email }}">
           <div class="mb-3 form-password-toggle">
             <label class="form-label" for="password">New Password</label>
             <div class="input-group input-group-merge">
-              <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
-              <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+              <input type="password" id="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" require/>
+              <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>              
+              @error('password')
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+              @enderror
             </div>
           </div>
           <div class="mb-3 form-password-toggle">
-            <label class="form-label" for="confirm-password">Confirm Password</label>
+            <label class="form-label" for="password_confirmation">Confirm Password</label>
             <div class="input-group input-group-merge">
-              <input type="password" id="confirm-password" class="form-control" name="confirm-password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
+              <input type="password" id="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
               <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+              @error('password_confirmation')
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+              @enderror
             </div>
           </div>
           <button class="btn btn-primary d-grid w-100 mb-3">
             Set new password
           </button>
           <div class="text-center">
-            <a href="{{url('auth/login-cover')}}">
+            <a href="{{url('auth/login')}}">
               <i class="ti ti-chevron-left scaleX-n1-rtl"></i>
               Back to login
             </a>

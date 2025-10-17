@@ -117,6 +117,7 @@ $navbarDetached = ($navbarDetached ?? '');
           <!--/ Style Switcher -->
           @endif
 
+          @if (Auth::check())
           <!-- Quick links  -->
           <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-2 me-xl-0">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
@@ -391,7 +392,8 @@ $navbarDetached = ($navbarDetached ?? '');
           <li class="nav-item navbar-dropdown dropdown-user dropdown">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
               <div class="avatar avatar-online">
-                <img src="{{ Auth::user() ? Auth::user()->profile_photo_url : asset('assets/img/avatars/1.png') }}" alt class="h-auto rounded-circle">
+                {{--<img src="{{ Auth::user() ? Auth::user()->profile_photo_url : asset('assets/img/avatars/1.png') }}" alt class="h-auto rounded-circle">--}}
+                <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="h-auto rounded-circle">
               </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
@@ -400,7 +402,8 @@ $navbarDetached = ($navbarDetached ?? '');
                   <div class="d-flex">
                     <div class="flex-shrink-0 me-3">
                       <div class="avatar avatar-online">
-                        <img src="{{ Auth::user() ? Auth::user()->profile_photo_url : asset('assets/img/avatars/1.png') }}" alt class="h-auto rounded-circle">
+                        {{--<img src="{{ //Auth::user() ? Auth::user()->profile_photo_url : asset('assets/img/avatars/1.png') }}" alt class="h-auto rounded-circle">--}}
+                        <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="h-auto rounded-circle">
                       </div>
                     </div>
                     <div class="flex-grow-1">
@@ -425,6 +428,7 @@ $navbarDetached = ($navbarDetached ?? '');
                   <span class="align-middle">My Profile</span>
                 </a>
               </li>
+              {{--
               @if (Auth::check() && Laravel\Jetstream\Jetstream::hasApiFeatures())
               <li>
                 <a class="dropdown-item" href="{{ route('api-tokens.index') }}">
@@ -433,6 +437,7 @@ $navbarDetached = ($navbarDetached ?? '');
                 </a>
               </li>
               @endif
+              
               <li>
                 <a class="dropdown-item" href="{{url('app/invoice/list')}}">
                   <span class="d-flex align-items-center align-middle">
@@ -441,6 +446,7 @@ $navbarDetached = ($navbarDetached ?? '');
                     <span class="flex-shrink-0 badge badge-center rounded-pill bg-label-danger w-px-20 h-px-20">2</span>
                   </span> </a>
               </li>
+              {{--
               @if (Auth::User() && Laravel\Jetstream\Jetstream::hasTeamFeatures())
               <li>
                 <div class="dropdown-divider"></div>
@@ -477,17 +483,19 @@ $navbarDetached = ($navbarDetached ?? '');
               </li>
               @endif
               @if (Auth::user())
-              @foreach (Auth::user()->allTeams() as $team)
+              @foreach (Auth::user()->allTeams() as $team)--}}
               {{-- Below commented code read by artisan command while installing jetstream. !! Do not remove if you want to use jetstream. --}}
 
               {{-- <x-switchable-team :team="$team" /> --}}
+              {{-- 
               @endforeach
               @endif
               @endif
+              --}}
+              
               <li>
                 <div class="dropdown-divider"></div>
               </li>
-              @if (Auth::check())
               <li>
                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                   <i class='ti ti-logout me-2'></i>
@@ -497,16 +505,16 @@ $navbarDetached = ($navbarDetached ?? '');
               <form method="POST" id="logout-form" action="{{ route('logout') }}">
                 @csrf
               </form>
-              @else
-              <li>
+            </ul>
+          </li>
+          @else
+          <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="dropdown-item" href="{{ Route::has('login') ? route('login') : url('auth/login-basic') }}">
                   <i class='ti ti-login me-2'></i>
                   <span class="align-middle">Login</span>
                 </a>
-              </li>
-              @endif
-            </ul>
           </li>
+          @endif
           <!--/ User -->
         </ul>
       </div>

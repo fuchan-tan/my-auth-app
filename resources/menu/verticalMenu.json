@@ -3,6 +3,7 @@
     {
       "name": "Dashboards",
       "icon": "menu-icon tf-icons ti ti-smart-home",
+      "can": true,
       "slug": "dashboard",
       "badge": [
         "primary",
@@ -39,6 +40,7 @@
     {
       "name": "Layouts",
       "icon": "menu-icon tf-icons ti ti-layout-sidebar",
+      "can": true,
       "slug": "layouts",
       "submenu": [
         {
@@ -93,6 +95,7 @@
     {
       "name": "Front Pages",
       "icon": "menu-icon tf-icons ti ti-files",
+      "can": true,
       "slug": "front-pages",
       "submenu": [
         {
@@ -130,6 +133,7 @@
     {
       "name": "Laravel Example",
       "icon": "menu-icon tf-icons ti ti-brand-php",
+      "can": true,
       "slug": "laravel-example",
       "submenu": [
         {
@@ -140,35 +144,41 @@
       ]
     },
     {
-      "menuHeader": "Apps & Pages"
+      "menuHeader": "Apps & Pages",
+      "can": true
     },
     {
       "url": "app/email",
       "name": "Email",
       "icon": "menu-icon tf-icons ti ti-mail",
+      "can": true,
       "slug": "app-email"
     },
     {
       "url": "app/chat",
       "name": "Chat",
       "icon": "menu-icon tf-icons ti ti-messages",
+      "can": true,
       "slug": "app-chat"
     },
     {
       "url": "app/calendar",
       "name": "Calendar",
       "icon": "menu-icon tf-icons ti ti-calendar",
+      "can": true,
       "slug": "app-calendar"
     },
     {
       "url": "app/kanban",
       "name": "Kanban",
       "icon": "menu-icon tf-icons ti ti-layout-kanban",
+      "can": true,
       "slug": "app-kanban"
     },
     {
       "name": "eCommerce",
       "icon": "menu-icon tf-icons ti ti-building-factory-2",
+      "can": true,
       "slug": "app-ecommerce",
       "submenu": [
         {
@@ -301,6 +311,7 @@
     {
       "name": "Academy",
       "icon": "menu-icon tf-icons ti ti-book",
+      "can": true,
       "slug": "app-academy",
       "submenu": [
         {
@@ -323,6 +334,7 @@
     {
       "name": "Logistics",
       "icon": "menu-icon tf-icons ti ti-truck",
+      "can": true,
       "slug": "app-logistics",
       "submenu": [
         {
@@ -340,6 +352,7 @@
     {
       "name": "Invoice",
       "icon": "menu-icon tf-icons ti ti-file-dollar",
+      "can": true,
       "slug": "app-invoice",
       "badge": [
         "danger",
@@ -371,6 +384,7 @@
     {
       "name": "Users",
       "icon": "menu-icon tf-icons ti ti-users",
+      "can": true,
       "slug": "app-user",
       "submenu": [
         {
@@ -414,6 +428,7 @@
     {
       "name": "Roles & Permissions",
       "icon": "menu-icon tf-icons ti ti-settings",
+      "can": true,
       "slug": "app-access",
       "submenu": [
         {
@@ -431,6 +446,7 @@
     {
       "name": "Pages",
       "icon": "menu-icon tf-icons ti ti-file",
+      "can": true,
       "slug": "pages",
       "submenu": [
         {
@@ -535,6 +551,7 @@
     {
       "name": "Authentications",
       "icon": "menu-icon tf-icons ti ti-lock",
+      "can": true,
       "slug": "auth",
       "submenu": [
         {
@@ -656,6 +673,7 @@
     {
       "name": "Wizard Examples",
       "icon": "menu-icon tf-icons ti ti-forms",
+      "can": true,
       "slug": "wizard-ex",
       "submenu": [
         {
@@ -678,15 +696,18 @@
     {
       "url": "modal-examples",
       "icon": "menu-icon tf-icons ti ti-square",
+      "can": true,
       "name": "Modal Examples",
       "slug": "modal-examples"
     },
     {
-      "menuHeader": "Components"
+      "menuHeader": "Components",
+      "can": true
     },
     {
       "name": "Cards",
       "icon": "menu-icon tf-icons ti ti-id",
+      "can": true,
       "slug": "cards",
       "badge": [
         "primary",
@@ -723,6 +744,7 @@
     {
       "name": "User interface",
       "icon": "menu-icon tf-icons ti ti-color-swatch",
+      "can": true,
       "slug": "ui",
       "submenu": [
         {
@@ -825,6 +847,7 @@
     {
       "name": "Extended UI",
       "icon": "menu-icon tf-icons ti ti-components",
+      "can": true,
       "slug": "extended",
       "submenu": [
         {
@@ -903,6 +926,7 @@
     {
       "name": "Icons",
       "icon": "menu-icon tf-icons ti ti-brand-tabler",
+      "can": true,
       "slug": "icons",
       "submenu": [
         {
@@ -918,11 +942,13 @@
       ]
     },
     {
-      "menuHeader": "Forms & Tables"
+      "menuHeader": "Forms & Tables",
+      "can": true
     },
     {
       "name": "Form Elements",
       "icon": "menu-icon tf-icons ti ti-toggle-left",
+      "can": true,
       "slug": "forms",
       "submenu": [
         {
@@ -980,6 +1006,7 @@
     {
       "name": "Form Layouts",
       "icon": "menu-icon tf-icons ti ti-layout-navbar",
+      "can": true,
       "slug": "form-layouts",
       "submenu": [
         {
@@ -1002,6 +1029,7 @@
     {
       "name": "Form Wizard",
       "icon": "menu-icon tf-icons ti ti-text-wrap-disabled",
+      "can": true,
       "slug": "form-wizard",
       "submenu": [
         {
@@ -1019,18 +1047,21 @@
     {
       "url": "form/validation",
       "icon": "menu-icon tf-icons ti ti-checkbox",
+      "can": true,
       "name": "Form Validation",
       "slug": "form-validation"
     },
     {
       "url": "tables/basic",
       "icon": "menu-icon tf-icons ti ti-table",
+      "can": true,
       "name": "Tables",
       "slug": "tables-basic"
     },
     {
       "name": "Datatables",
       "icon": "menu-icon tf-icons ti ti-layout-grid",
+      "can": true,
       "slug": "tables-datatables",
       "submenu": [
         {
@@ -1051,11 +1082,13 @@
       ]
     },
     {
-      "menuHeader": "Charts & Maps"
+      "menuHeader": "Charts & Maps",
+      "can": true
     },
     {
       "name": "Charts",
       "icon": "menu-icon tf-icons ti ti-chart-pie",
+      "can": true,
       "slug": "charts",
       "submenu": [
         {
@@ -1073,6 +1106,7 @@
     {
       "url": "maps/leaflet",
       "icon": "menu-icon tf-icons ti ti-map",
+      "can": true,
       "name": "Leaflet Maps",
       "slug": "maps-leaflet"
     },
