@@ -159,7 +159,7 @@ use App\Http\Controllers\charts\ApexCharts;
 use App\Http\Controllers\charts\ChartJs;
 use App\Http\Controllers\maps\Leaflet;
 use App\Http\Controllers\Auth\ResetPasswordController;
-
+use App\Http\Controllers\Auth\TwoFactorSetup;
 
 
 // locale
@@ -370,5 +370,6 @@ Route::resource('/user-list', UserManagement::class);
 });
 
 
+Route::get('/auth/two-factor-setup', [TwoFactorSetup::class, 'index'])->name('auth-two-factor-setup');
 Route::middleware('guest')->group(function () {
 });

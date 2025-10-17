@@ -52,6 +52,14 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::resetPasswordView(function (Request $request) {
             return view('content.authentications.auth-reset-password-cover', ['request'=>$request]);
         });
+        //Two factor Chellenge View
+        Fortify::twoFactorChallengeView(function () {
+            return view('content.authentications.auth-two-factor-challenge');
+        });
+        //Two Factor Password Confirm View
+        Fortify::confirmPasswordView(function () {
+            return view('content.authentications.auth-confirm-password');
+        });
 
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
