@@ -108,14 +108,14 @@ Ensure **Docker** and **Docker Compose** are installed and running on your syste
 1. Build and Start Containers:  
    This command will build the custom PHP/Nginx image and start all services (App, Nginx, MySQL).  
    To build the image, installing NPM/Composer dependencies docker
+   
+   docker compose build
+   
+   To start and run migrations/seeding
+   
+   compose up \-d
 
-	docker compose build 
-
-        To start and run migrations/seeding	
-
-compose up \-d
-
-2. Access the Application:  
+3. Access the Application:  
    Once running, the application should be accessible at: http://localhost:8000 (or the port defined in your docker-compose.yml).  
    The login credentials are: admin@admin.com / pwd12345.
 
