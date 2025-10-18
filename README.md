@@ -2,7 +2,7 @@
 
 ## **🌟 Project Overview**
 
-This project implements the required administration portal authentication layer for Part A of the OCCAM Full Stack Developer Challenge.
+This project implements the required administration portal authentication layer for Part A of the OCCAM Full Stack Developer Challenge. It can Register User Account, Login, Reset Password. Control pages access with authentication.
 
 It leverages **Laravel 10.x** with **Fortify** for robust authentication scaffolding and integrates **Google2FA** to provide Multi-Factor Authentication (MFA). The application utilizes a custom administration theme (Vuexy style) for the frontend presentation and uses **Vite** for asset compilation.
 
@@ -88,12 +88,12 @@ Since this part focuses solely on web authentication, the "API" documentation co
 
 | Method | URI | Description | Status |
 | :---- | :---- | :---- | :---- |
-| POST | /login | Authenticates user credentials. | Working |
-| POST | /logout | Invalidates the user session. | Working |
-| POST | /forgot-password | Sends a password reset link to the provided email. | Working |
-| POST | /reset-password | Resets the user's password using a valid token. | Working |
-| GET/POST | /two-factor-challenge | MFA challenge screen displayed after successful login (if MFA is enabled). | Working |
-| POST | /user/two-factor-authentication | Enables/disables 2FA (requires QR code generation). | Working |
+| POST | /auth/login | Authenticates user credentials. | Working |
+| POST | /auth/logout | Invalidates the user session. | Working |
+| POST | /auth/forgot-password | Sends a password reset link to the provided email. | Working |
+| POST | /auth/reset-password | Resets the user's password using a valid token. | Working |
+| GET/POST | /auth/two-factor-challenge | MFA challenge screen displayed after successful login (if MFA is enabled). | Working |
+| POST | /auth/two-factor-setup | Enables/disables 2FA (requires QR code generation). | Working |
 
 ## **🐳 5\. Local Deployment (Option B: Docker)**
 

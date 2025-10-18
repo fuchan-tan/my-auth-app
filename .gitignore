@@ -30,5 +30,6 @@ yarn-error.log
 /public/assets
 /public/mix-manifest.json
 
+/resources/views/content/authentications/backup
 README-backup.md
 README-backup2.md
