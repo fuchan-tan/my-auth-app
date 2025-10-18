@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             User::create([
                 'name' => 'Fortify Admin',
                 'email' => 'admin@admin.com',
-                'password' => Hash::make('pwd111'),
+                'password' => Hash::make('pwd12345'),
                 'email_verified_at' => now(),
             ]);
 

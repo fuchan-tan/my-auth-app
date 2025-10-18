@@ -1,18 +1,28 @@
 @php
-// CRITICAL FIX: Define and force refresh the authenticated user model here
-// to ensure two_factor_confirmed and recovery codes are current before rendering.
-$user = auth()->user();
-$user->refresh();
+// CRITICAL FIX: Aggressively retrieve the user model directly from the
+// Guard's User Provider using the user's ID to bypass ALL session caching
+// that causes the 'PENDING' state after a fresh login.
+$userId = auth()->id();
+$user = auth()->getProvider()->retrieveById($userId);
+
+// Fallback just in case retrievalById fails (though highly unlikely in a standard setup)
+if (!$user) {
+    $user = auth()->user();
+    $user->refresh();
+}
 
 $configData = Helper::appClasses();
-
-// 🛑 STATE OVERRIDE FIX: If the success status is present, we override the stale user model state
-// and force the view to render the FULLY ENABLED block.
-$showConfirmedViewOverride = session('status') === 'two-factor-authentication-confirmed';
-
-// NOTE: We are no longer using $showQrCode to control the main QR code block.
-// Instead, we rely on the persistent database state: two_factor_secret is set, but two_factor_confirmed is false.
 $pageConfigs = ['layout' => 'contentNavbarLayout'];
+
+// Define status messages for a clean look
+$status = session('status');
+
+// FIX: Safely determine if validation errors exist for display.
+// This prevents the 'getBag() on null' error when no validation has occurred.
+$localErrors = null;
+if (isset($errors) && $errors->any()) {
+    $localErrors = $errors;
+}
 @endphp
 
 @extends('layouts/layoutMaster')
@@ -43,7 +53,6 @@ $pageConfigs = ['layout' => 'contentNavbarLayout'];
 @section('page-script')
 @vite([
   'resources/assets/js/pages-auth.js'
-  {{-- The 'pages-auth-two-steps.js' script was removed as it conflicts with this non-multi-input form structure. --}}
 ])
 @endsection
 
@@ -56,15 +65,40 @@ $pageConfigs = ['layout' => 'contentNavbarLayout'];
         <div class="card-body">
 
           {{-- 1. PENDING CONFIRMATION (Secret Exists, but not confirmed) --}}
-          {{-- PENDING CONFIRMATION REMAINS only if NOT confirmed AND no success status override is present --}}
-          @if ($user->two_factor_secret && !$user->two_factor_confirmed && !$showConfirmedViewOverride)
-            
+          {{-- CHECKING THE RAW DATABASE COLUMN HERE FOR GUARANTEED ACCURACY --}}
+          @if ($user->two_factor_secret && is_null($user->two_factor_confirmed_at))
+
             <div class="alert alert-warning d-flex align-items-center" role="alert">
               <span class="alert-icon text-warning me-2">
                 <i class="ti ti-alert-circle ti-sm"></i>
               </span>
               Two-Factor Authentication is currently **PENDING CONFIRMATION**. Please scan the code and enter the verification token below to finalize setup.
             </div>
+
+            {{-- NEW: Display success status message from 'Enable 2FA' action --}}
+            @if ($status === 'two-factor-authentication-enabled')
+              <div class="alert alert-success mb-4 mx-auto col-md-6" role="alert">
+                2FA setup initiated successfully. Scan the QR code below to complete confirmation.
+              </div>
+            @endif
+
+            {{-- Display generic error status messages (excluding successful ones) --}}
+            @if ($status && $status !== 'two-factor-authentication-confirmed' && $status !== 'two-factor-authentication-enabled')
+                <div class="alert alert-danger mb-4 mx-auto col-md-6" role="alert">
+                  {{ $status }}
+                </div>
+            @endif
+            
+            {{-- Use localErrors for display --}}
+            @if ($localErrors)
+              <div class="alert alert-danger mb-4 mx-auto col-md-6" role="alert">
+                <ul class="mb-0 ps-3">
+                  @foreach ($localErrors->all() as $error)
+                    <li>{{ $error }}</li>
+                  @endforeach
+                </ul>
+              </div>
+            @endif
 
             <div class="text-center mb-4">
               <h5 class="mb-2">Scan the QR Code to Confirm</h5>
@@ -87,24 +121,6 @@ $pageConfigs = ['layout' => 'contentNavbarLayout'];
             <h5 class="mb-3 text-center">Confirmation</h5>
             <p class="text-center text-muted">Enter the 6-digit code from your authenticator app to complete setup.</p>
 
-            {{-- ** ERROR Display in PENDING State ** --}}
-            @if (session('status') && session('status') !== 'two-factor-authentication-confirmed')
-                <div class="alert alert-danger mb-4 mx-auto col-md-6" role="alert">
-                  {{ session('status') }}
-                </div>
-            @endif
-
-            {{-- ** General Validation Error Display (from previous step) ** --}}
-            @if ($errors->any())
-              <div class="alert alert-danger mb-4 mx-auto col-md-6" role="alert">
-                <ul class="mb-0 ps-3">
-                  @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                  @endforeach
-                </ul>
-              </div>
-            @endif
-            
             {{-- Confirmation Form --}}
             <form method="POST" action="{{ url('auth/user/confirmed-two-factor-authentication') }}" class="mt-4 col-md-6 mx-auto">
               @csrf
@@ -124,14 +140,25 @@ $pageConfigs = ['layout' => 'contentNavbarLayout'];
             </form>
 
           {{-- 2. FULLY ENABLED (Disable Button & Recovery Codes Visible) --}}
-          {{-- ENABLED if confirmed OR if the status override is present --}}
-          @elseif ($user->two_factor_confirmed || $showConfirmedViewOverride)
-            <div class="alert alert-success d-flex align-items-center" role="alert">
-              <span class="alert-icon text-success me-2">
-                <i class="ti ti-check ti-sm"></i>
-              </span>
-              Two-Factor Authentication is **ACTIVELY ENABLED**.
-            </div>
+          {{-- CHECKING THE RAW DATABASE COLUMN HERE FOR GUARANTEED ACCURACY --}}
+          @elseif (!is_null($user->two_factor_confirmed_at))
+
+            {{-- Success Message Display --}}
+            @if ($status === 'two-factor-authentication-confirmed' || $status === 'recovery-codes-generated')
+              <div class="alert alert-success d-flex align-items-center mb-4" role="alert">
+                <span class="alert-icon text-success me-2">
+                  <i class="ti ti-check ti-sm"></i>
+                </span>
+                Two-Factor Authentication Setup Complete! Please save your recovery codes below.
+              </div>
+            @else
+              <div class="alert alert-success d-flex align-items-center" role="alert">
+                <span class="alert-icon text-success me-2">
+                  <i class="ti ti-check ti-sm"></i>
+                </span>
+                Two-Factor Authentication is **ACTIVELY ENABLED**.
+              </div>
+            @endif
 
             <div class="row">
               <div class="col-md-6 mb-4">
@@ -165,14 +192,16 @@ $pageConfigs = ['layout' => 'contentNavbarLayout'];
               <div class="col-md-6">
                 <h5 class="mb-3">Disable 2FA</h5>
                 <p class="text-muted">
-                  Disabling 2FA will remove this extra layer of security from your account.
+                  Disabling 2FA will remove this extra layer of security from your account. **You will be securely prompted for your password to confirm this action.**
                 </p>
-                {{-- Form to DISABLE 2FA --}}
+                {{-- Form to DISABLE 2FA (Reverting to the default Fortify redirect flow) --}}
                 <form method="POST" action="{{ url('auth/user/two-factor-authentication') }}" class="mt-3">
                   @csrf
                   @method('DELETE')
-                  <button type="submit" class="btn btn-danger d-grid w-100"
-                          onclick="return confirm('Are you sure you want to disable Two-Factor Authentication? You will be less secure.')">
+                  
+                  {{-- NOTE: Password confirmation is now handled via a secure redirect page --}}
+
+                  <button type="submit" class="btn btn-danger d-grid w-100">
                     Disable 2FA
                   </button>
                 </form>

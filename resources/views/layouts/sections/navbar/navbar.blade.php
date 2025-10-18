@@ -428,6 +428,12 @@ $navbarDetached = ($navbarDetached ?? '');
                   <span class="align-middle">My Profile</span>
                 </a>
               </li>
+              <li>
+                <a class="dropdown-item" href="{{ route('auth-two-factor-setup') }}">
+                  <i class="ti ti-user-check me-2 ti-sm"></i>
+                  <span class="align-middle">2FA Setup</span>
+                </a>
+              </li>
               {{--
               @if (Auth::check() && Laravel\Jetstream\Jetstream::hasApiFeatures())
               <li>
