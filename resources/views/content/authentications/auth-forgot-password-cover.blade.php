@@ -68,7 +68,12 @@ $configData = Helper::appClasses();
           @csrf
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" autofocus>
+            <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Enter your email" autofocus>
+            @error('email')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
           </div>
           <button class="btn btn-primary d-grid w-100">Send Reset Link</button>
         </form>
