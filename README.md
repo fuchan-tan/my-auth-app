@@ -31,7 +31,7 @@ The following software is required to run the application locally:
    cp .env.example .env  
    php artisan key:generate
 
-   Configure your database credentials, Mailtrap/SMTP settings, and local application URL within the newly created .env file.
+   Configure your database credentials, Mailhog/SMTP settings, and local application URL within the newly created .env file.
 
 ### **B. Database Setup**
 
@@ -107,26 +107,15 @@ Ensure **Docker** and **Docker Compose** are installed and running on your syste
 
 1. Build and Start Containers:  
    This command will build the custom PHP/Nginx image and start all services (App, Nginx, MySQL).  
-   docker-compose up \--build \-d
+   To build the image, installing NPM/Composer dependencies docker
 
-2. Enter the App Container:  
-   You must run the setup commands (migrations, seeding, npm install) inside the application container.  
-   docker exec \-it occam-app-container bash
+	docker compose build 
 
-3. **Run Setup Commands inside the Container:**  
-   \# Ensure PHP dependencies are installed (already done via volume mount, but good to check)  
-   composer install
+        To start and run migrations/seeding	
 
-   \# Run migrations and seeds  
-   php artisan migrate:fresh \--seed
+compose up \-d
 
-   \# Install Node dependencies  
-   npm install
-
-   \# Run Vite development server  
-   npm run dev
-
-4. Access the Application:  
+2. Access the Application:  
    Once running, the application should be accessible at: http://localhost:8000 (or the port defined in your docker-compose.yml).  
    The login credentials are: admin@admin.com / pwd12345.
 

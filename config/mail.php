@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Support\Str; // Added 'use' statement for consistency
 return [
 
     /*
@@ -46,6 +46,17 @@ return [
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],
 
+        'mailhog' => [
+            'transport' => 'smtp',
+            'host' => env('MAILHOG_HOST', 'mailhog'), // Should match your docker-compose service name
+            'port' => env('MAILHOG_PORT', 1025),      // Mailhog's default SMTP port
+            'encryption' => null,
+            'username' => null,
+            'password' => null,
+            'timeout' => null,
+            'local_domain' => env('MAIL_EHLO_DOMAIN'),
+        ],
+        
         'ses' => [
             'transport' => 'ses',
         ],
